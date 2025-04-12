@@ -1,10 +1,17 @@
-FROM n8nio/n8n:latest
+FROM n8nio/n8n:1.88.0
 
-# Switch to root user to install global npm packages
+# Cambiar a usuario root para poder instalar paquetes globales
 USER root
 
-# Install the desired npm packages globally
-RUN npm install -g firecrawl-mcp
+# Actualizar npm (para asegurarnos de que 'npx' venga correcto)
+RUN npm install -g npm@latest
 
-# Revert to the node user for security purposes
+# Instalar 'npx' globalmente (por si la versión de npm en la imagen no lo trae)
+RUN npm install -g npx
+
+# (Opcional) Instalar aquí cualquier paquete que provea el comando que uses
+# Supongamos que el binario se llama 'supergateway' y se instala con:
+RUN npm install -g supergateway
+
+# Regresar a usuario node (recomendado por seguridad)
 USER node
